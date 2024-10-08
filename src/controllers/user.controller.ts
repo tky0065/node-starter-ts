@@ -80,6 +80,7 @@ export const getUser: RequestHandler = async (
             orderBy: {
                 createdAt: "desc",
             },
+            
         });
 
         const others = users.map(({ password, ...others }) => others);
@@ -145,7 +146,7 @@ export const updateUser: RequestHandler = async (
     res: Response
 ): Promise<void> => {
     const { id } = req.params;
-    const { username, email, firstName, lastName, phone, dob, gender, image, role } = req.body;
+    const { username, email, firstName, lastName, phone, dob, gender, image, role,password } = req.body;
     try {
         const user = await db.user.findUnique({
             where: {
@@ -155,6 +156,37 @@ export const updateUser: RequestHandler = async (
         if (!user) {
             res.status(StatusCodes.NOT_FOUND).json({ error: `User with id ${id} not found` });
             return;
+        }
+
+        // verify if email, phone and username already exist and unique
+        if (email && email !== user.email) {
+            const existinUserEmail = await db.user.findUnique({ where: { email: email }, });
+            if (existinUserEmail) {
+                res.status(StatusCodes.CONFLICT).json({ error: `User with this email( ${email}) already exist` });
+                return;
+            }
+            
+        }
+
+        if (phone && phone !== user.phone) {
+            const existinUserPhone = await db.user.findUnique({ where: { phone: phone }, });
+            if (existinUserPhone) {
+                res.status(StatusCodes.CONFLICT).json({ error: `User with this phone( ${phone}) already exist` });
+                return;
+            }
+        }
+
+        if (username && username !== user.username) {
+            const existinUserName = await db.user.findUnique({ where: { username: username }, });
+            if (existinUserName) {
+                res.status(StatusCodes.CONFLICT).json({ error: `User with this username( ${username}) already exist` });
+                return;
+            }
+        }
+
+        let  hashedPassword = user.password; ;
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, 10);
         }
         const updatedUser = await db.user.update({
             where: { id: id },
@@ -167,11 +199,12 @@ export const updateUser: RequestHandler = async (
                 dob,
                 gender,
                 image,
+                password: hashedPassword ,
                 role,
             },
         });
-
-        res.status(StatusCodes.OK).json(updatedUser);
+       const { password: savePass, ...others } = updatedUser;
+        res.status(StatusCodes.OK).json(others);
     } catch (error) {
         console.error(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: `Internal Server Error ${error}` });

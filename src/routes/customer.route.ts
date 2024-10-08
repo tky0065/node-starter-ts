@@ -1,4 +1,4 @@
-import { createCustomer, getCustomer, getCustomerById, updateCustomer } from '@/controllers/customer.controller';
+import { createCustomer, deleteCustomer, getCustomer, getCustomerById, updateCustomer } from '@/controllers/customer.controller';
 import { validateData } from '@/middleware/validationMiddleware';
 import { createCustomerSchema, updateCustomerSchema } from '@/validators/customer.form';
 import express from 'express';
@@ -19,9 +19,6 @@ customerRouter.post("/customers",validateData(createCustomerSchema),createCustom
 customerRouter.put("/customers/:id",validateData(updateCustomerSchema), updateCustomer);
 
 // Delete a customer by ID
-customerRouter.delete("/customers/:id", (req: Request, res: Response) => {
-  const customerId = req.params.id;
-  res.send(`Delete customer with ID: ${customerId}`);
-});
+customerRouter.delete("/customers/:id", deleteCustomer);
 
 export default customerRouter;
