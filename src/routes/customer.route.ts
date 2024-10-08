@@ -1,4 +1,6 @@
-import { createCustomer, getCustomer, getCustomerById } from '@/controllers/customer.controller';
+import { createCustomer, getCustomer, getCustomerById, updateCustomer } from '@/controllers/customer.controller';
+import { validateData } from '@/middleware/validationMiddleware';
+import { createCustomerSchema, updateCustomerSchema } from '@/validators/customer.form';
 import express from 'express';
 import { Request, Response } from 'express';
 
@@ -11,18 +13,10 @@ customerRouter.get('/customers',getCustomer);
 customerRouter.get("/customers/:id", getCustomerById);
 
 // Create a new customer
-customerRouter.post("/customers",createCustomer);
+customerRouter.post("/customers",validateData(createCustomerSchema),createCustomer);
 
 // Update an existing customer by ID
-customerRouter.put("/customers/:id", (req: Request, res: Response) => {
-  const customerId = req.params.id;
-  const updatedCustomer = req.body;
-  res.send(
-    `Update customer with ID: ${customerId}, Data: ${JSON.stringify(
-      updatedCustomer
-    )}`
-  );
-});
+customerRouter.put("/customers/:id",validateData(updateCustomerSchema), updateCustomer);
 
 // Delete a customer by ID
 customerRouter.delete("/customers/:id", (req: Request, res: Response) => {

@@ -21,7 +21,7 @@ export const createCustomer: RequestHandler = async (
     
   } catch (error) {
     console.error(error);
-    
+     res.status(500).json({ error: `Internal Server Error ${error}` });
   }
 
 };
@@ -40,7 +40,7 @@ export const getCustomer: RequestHandler = async (
     res.status(200).json(customers);
   } catch (error) {
     console.error(error);
-    
+     res.status(500).json({ error: `Internal Server Error ${error}` });
   }
 
 
@@ -60,6 +60,26 @@ export const getCustomerById: RequestHandler = async (
        res.status(200).json(customer);
     } catch (error) {
       console.error(error);
+       res.status(500).json({ error: `Internal Server Error ${error}` });
     }
  
+};
+export const updateCustomer: RequestHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+  const { name, email, phone } = req.body;
+
+  try {
+    const updatedCustomer = await db.customer.update({
+      where: { id: id },
+      data: { name, email, phone },
+    });
+
+    res.status(200).json(updatedCustomer);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Internal Server Error ${error}` });
+  }
 };
