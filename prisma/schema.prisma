@@ -15,12 +15,24 @@ datasource db {
 
 model Customer {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
+  customerType CustomerType
+  firstName String
+  lastName  String
   phone     String
-  email     String   @unique
+  gender    Gender
+  maxCreditLimit Float
+  maxCreditDays Int
+  taxPin    String?
+  dob       DateTime?
+  email     String?   @unique
+  nationalId String?  @unique
+  country    String?
+  location  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
 
 model User {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -60,4 +72,11 @@ enum Role {
 enum Gender {
   MALE
   FEMALE
+}
+
+enum CustomerType {
+  RETAIL
+  WHOLESALE
+  DISTRIBUTOR
+  OTHER
 }
