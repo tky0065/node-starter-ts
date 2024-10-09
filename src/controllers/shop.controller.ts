@@ -87,28 +87,31 @@ export const updateShop: RequestHandler = async (
     const { id } = req.params;
     const { name, location, adminId, attendantIds } = req.body;
     try {
-        const shop = await db.shop.findUnique({
-            where: {
-                id: id,
-            },
-        });
+      const shop = await db.shop.findUnique({
+        where: {
+          id: id,
+        },
+      });
 
-        if (!shop) {
-            res.status(StatusCodes.NOT_FOUND).json({ error: `Shop with id ${id} not found` });
-            return;
-        }
+      if (!shop) {
+        res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: `Shop with id ${id} not found` });
+        return;
+      }
 
-        const updatedShop = await db.shop.update({
-            where: { id: id },
-            data: {
-                name,
-                location,
-                adminId,
-                attendantIds,
-            },
-        });
+       
+      const updatedShop = await db.shop.update({
+        where: { id: id },
+        data: {
+          name,
+          location,
+          adminId,
+          attendantIds,
+        },
+      });
 
-        res.status(StatusCodes.OK).json(updatedShop);
+      res.status(StatusCodes.OK).json(updatedShop);
     } catch (error) {
         console.error(error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: `Internal Server Error ${error}` });

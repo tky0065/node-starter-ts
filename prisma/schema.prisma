@@ -18,7 +18,7 @@ model Customer {
   customerType CustomerType
   firstName String
   lastName  String
-  phone     String
+  phone     String   @unique
   gender    Gender
   maxCreditLimit Float
   maxCreditDays Int
@@ -64,6 +64,26 @@ model Shop {
   attendantIds String[] @db.ObjectId
 }
 
+model Supplier {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  supplierType SupplierType
+  name      String
+  contactPerson String
+  phone     String   @unique
+  email     String?  @unique
+  country   String
+  location  String
+  website   String?
+  registrationNumber String? @unique
+  bankAccountNumber String?
+  bankName  String?
+  paymentTerms String?
+  logo      String? @default("https://utfs.io/f/irA39Q64G7WRu6dordcskJy5SWnRPwVmc4jqhgAe3ZMHvdxi")
+  rating    Float?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 enum Role {
   ADMIN
   ATTENDANT
@@ -78,5 +98,13 @@ enum CustomerType {
   RETAIL
   WHOLESALE
   DISTRIBUTOR
+  OTHER
+}
+
+enum SupplierType {
+  MANUFACTURER
+  DISTRIBUTOR
+  WHOLESALER
+  RETAILER
   OTHER
 }

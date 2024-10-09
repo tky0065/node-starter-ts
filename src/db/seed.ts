@@ -1,6 +1,5 @@
-
-import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 const db = new PrismaClient();
@@ -10,7 +9,7 @@ async function main() {
   const hashedPassword = await bcrypt.hash("admin111", 10);
 
   // Seed Users with hashed password
-  const usersData  = Array.from({ length: 10 }, () => ({
+  const usersData = Array.from({ length: 10 }, () => ({
     username: faker.internet.userName(),
     email: faker.internet.email(),
     password: hashedPassword, // Use hashed password
@@ -21,7 +20,7 @@ async function main() {
     gender: faker.helpers.arrayElement(["MALE", "FEMALE"]),
     image: faker.image.avatar(),
     role: faker.helpers.arrayElement(["ADMIN", "ATTENDANT"]),
-  })) ;
+  }));
 
   await db.user.createMany({
     data: usersData,
@@ -33,9 +32,7 @@ async function main() {
     where: {
       role: "ATTENDANT",
     },
-
   });
-  
 
   // Seed Shops
   const shopsData = Array.from({ length: 10 }, (_, i) => ({
@@ -75,8 +72,36 @@ async function main() {
   await db.customer.createMany({
     data: customersData,
   });
+  // Seed Suppliers
+  const suppliersData = Array.from({ length: 20 }, () => ({
+    supplierType: faker.helpers.arrayElement([
+      "MANUFACTURER",
+      "DISTRIBUTOR",
+      "WHOLESALER",
+      "RETAILER",
+      "OTHER",
+    ]),
+    name: faker.company.name(),
+    contactPerson: faker.person.fullName(),
+    phone: faker.phone.number(),
+    email: faker.internet.email(),
+    country: faker.location.country(),
+    location: faker.location.city(),
+    website: faker.internet.url(),
+    registrationNumber: faker.finance.amount(),
+    bankAccountNumber: faker.finance.amount(),
+    bankName: faker.company.name(),
+    paymentTerms: faker.lorem.sentence(),
+    logo: faker.image.url(),
+    rating: parseFloat(faker.finance.amount()),
+    notes: faker.lorem.paragraph(),
+  }));
 
-  console.log("Seeded users, shops, and customers successfully!");
+  await db.supplier.createMany({
+    data: suppliersData,
+  });
+
+  console.log("Seeded users, shops,supplier and customers successfully!");
 }
 
 main()
