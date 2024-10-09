@@ -79,11 +79,75 @@ model Supplier {
   bankName  String?
   paymentTerms String?
   logo      String? @default("https://utfs.io/f/irA39Q64G7WRu6dordcskJy5SWnRPwVmc4jqhgAe3ZMHvdxi")
+  Product Product[]
   rating    Float?
   notes     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  
 }
+
+model Unit {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  abreviation    String
+  slug      String   @unique
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  slug      String   @unique
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Brand {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  slug      String   @unique
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  content     String?
+  sku         String   @unique
+  slug        String   @unique
+  productCode String?  @unique
+  image       String?  @default("https://utfs.io/f/irA39Q64G7WRu6dordcskJy5SWnRPwVmc4jqhgAe3ZMHvdxi")
+  price       Float
+  bayPrice    Float
+  tax         Float?
+  bachNumber  String?
+  costPrice   Float
+  quantity    Int
+  expiryDate  DateTime?
+  alertQuantity Int
+  stockQuantity Int
+  barcode     String?
+  unitId      String   @db.ObjectId
+  unit        Unit     @relation(fields: [unitId], references: [id])
+  brandId     String   @db.ObjectId
+  brand       Brand    @relation(fields: [brandId], references: [id])
+  categoryId  String   @db.ObjectId
+  category    Category @relation(fields: [categoryId], references: [id])
+  supplierId  String   @db.ObjectId
+  supplier    Supplier @relation(fields: [supplierId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  
+}
+
 enum Role {
   ADMIN
   ATTENDANT
