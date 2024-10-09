@@ -30,7 +30,8 @@ export const getProductById = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!product) {
-            return res.status(404).json({ error: 'Product not found' });
+            res.status(404).json({ error: 'Product not found' });
+            return;
         }
         res.status(200).json(product);
     } catch (error) {
@@ -45,7 +46,9 @@ export const updateProduct = async (req: Request, res: Response) => {
           where: { id },
         });
         if (!existingProduct) {
-            return res.status(404).json({ error: 'Product not found' });
+
+            res.status(404).json({ error: 'Product not found' });
+            return;
         }
         const product = await db.product.update({
             where: { id },
@@ -65,7 +68,8 @@ export const deleteProduct = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!product) {
-            return res.status(404).json({ error: 'Product not found' });
+            res.status(404).json({ error: 'Product not found' });
+            return;
         }
         await db.product.delete({
             where: { id },

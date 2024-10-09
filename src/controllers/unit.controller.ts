@@ -30,7 +30,8 @@ export const getUnitById = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!unit) {
-            return res.status(404).json({ error: 'Unit not found' });
+            res.status(404).json({ error: 'Unit not found' });
+            return;
         }
         res.status(200).json(unit);
     } catch (error) {
@@ -45,7 +46,8 @@ export const updateUnit = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!existingUnit) {
-            return res.status(404).json({ error: 'Unit not found' });
+            res.status(404).json({ error: 'Unit not found' });
+            return;
         }
         const unit = await db.unit.update({
             where: { id },
@@ -64,7 +66,8 @@ export const deleteUnit = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!unit) {
-            return res.status(404).json({ error: 'Unit not found' });
+            res.status(404).json({ error: 'Unit not found' });
+            return;
         }
         await db.unit.delete({
             where: { id },

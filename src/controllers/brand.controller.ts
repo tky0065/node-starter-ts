@@ -30,7 +30,8 @@ export const getBrandById = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!brand) {
-            return res.status(404).json({ error: 'Brand not found' });
+            res.status(404).json({ error: 'Brand not found' });
+            return;
         }
         res.status(200).json(brand);
     } catch (error) {
@@ -45,7 +46,8 @@ export const updateBrand = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!existingBrand) {
-            return res.status(404).json({ error: 'Brand not found' });
+            res.status(404).json({ error: 'Brand not found' });
+            return;
         }
         const brand = await db.brand.update({
             where: { id },
@@ -64,7 +66,8 @@ export const deleteBrand = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!brand) {
-            return res.status(404).json({ error: 'Brand not found' });
+            res.status(404).json({ error: 'Brand not found' });
+            return;
         }
         await db.brand.delete({
             where: { id },

@@ -30,7 +30,8 @@ export const getCategoryById = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!category) {
-            return res.status(404).json({ error: 'Category not found' });
+            res.status(404).json({ error: 'Category not found' });
+            return;
         }
         res.status(200).json(category);
     } catch (error) {
@@ -45,7 +46,8 @@ export const updateCategory = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!existingCategory) {
-            return res.status(404).json({ error: 'Category not found' });
+            res.status(404).json({ error: 'Category not found' });
+            return;
         }
         const category = await db.category.update({
             where: { id },
@@ -64,7 +66,8 @@ export const deleteCategory = async (req: Request, res: Response) => {
             where: { id },
         });
         if (!category) {
-            return res.status(404).json({ error: 'Category not found' });
+            res.status(404).json({ error: 'Category not found' });
+            return;
         }
         await db.category.delete({
             where: { id },
