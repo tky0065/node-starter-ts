@@ -2,7 +2,7 @@ import { db } from "@/db/db";
 import e, { Request, RequestHandler, Response } from "express";
 import bcrypt from "bcrypt";
 import { StatusCodes } from "http-status-codes";
-import { error } from "console";
+
 
 
 export const createUser: RequestHandler = async (
@@ -116,30 +116,30 @@ export const getUserById: RequestHandler = async (
     }
 };
 
-export const loginUser: RequestHandler = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
-    const { email, password } = req.body;
-    try {
-        const user = await db.user.findUnique({
-            where: {
-                email: email,
-            },
-        });
+// export const loginUser: RequestHandler = async (
+//     req: Request,
+//     res: Response
+// ): Promise<void> => {
+//     const { email, password } = req.body;
+//     try {
+//         const user = await db.user.findUnique({
+//             where: {
+//                 email: email,
+//             },
+//         });
 
-        if (user && (await bcrypt.compare(password, user.password))) {
-            res.status(StatusCodes.OK).json({ message: "Login successful" });
-        } else {
-            res
-              .status(StatusCodes.UNAUTHORIZED)
-              .json({ error: "Invalid email or password" });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: `Internal Server Error ${error}` });
-    }
-};
+//         if (user && (await bcrypt.compare(password, user.password))) {
+//             res.status(StatusCodes.OK).json({ message: "Login successful" });
+//         } else {
+//             res
+//               .status(StatusCodes.UNAUTHORIZED)
+//               .json({ error: "Invalid email or password" });
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: `Internal Server Error ${error}` });
+//     }
+// };
 
 export const updateUser: RequestHandler = async (
     req: Request,
