@@ -3,10 +3,18 @@ import { db } from '@/db/db';
 
 export const createCategory = async (req: Request, res: Response) => {
     try {
-        const category = await db.category.create({
-            data: req.body,
+        // check if slug  already exist
+        const existingCategory = await db.category.findFirst({
+            where: { slug: req.body.slug },
         });
-        res.status(201).json(category);
+        if (existingCategory) {
+            res.status(409).json({ error: 'Category with this slug already exists' });
+            return;
+        }
+      const category = await db.category.create({
+        data: req.body,
+      });
+      res.status(201).json(category);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create category' });
     }
@@ -48,6 +56,18 @@ export const updateCategory = async (req: Request, res: Response) => {
         if (!existingCategory) {
             res.status(404).json({ error: 'Category not found' });
             return;
+        }
+        // check if slug  already exists if user is updating  slug
+        if (req.body.slug) {
+            const existingCategory = await db.category.findFirst({
+                where: {
+                    slug: req.body.slug,
+                },
+            });
+            if (existingCategory) {
+                res.status(409).json({ error: 'Category with this slug already exists' });
+                return;
+            }
         }
         const category = await db.category.update({
             where: { id },

@@ -101,7 +101,75 @@ async function main() {
     data: suppliersData,
   });
 
-  console.log("Seeded users, shops,supplier and customers successfully!");
+  // Seed Units
+  const unitsData = Array.from({ length: 5 }, () => ({
+    name: faker.commerce.productMaterial(),
+    abreviation: faker.lorem.word(),
+    slug: faker.lorem.slug(),
+  }));
+
+  await db.unit.createMany({
+    data: unitsData,
+  });
+
+  // Seed Categories
+  const categoriesData = Array.from({ length: 5 }, () => ({
+    name: faker.commerce.department(),
+    slug: faker.lorem.slug(),
+  }));
+
+  await db.category.createMany({
+    data: categoriesData,
+  });
+
+  // Seed Brands
+  const brandsData = Array.from({ length: 5 }, () => ({
+    name: faker.company.name(),
+    slug: faker.lorem.slug(),
+  }));
+
+  await db.brand.createMany({
+    data: brandsData,
+  });
+
+  // Retrieve created units, categories, brands, and suppliers to get their IDs
+  const createdUnits = await db.unit.findMany();
+  const createdCategories = await db.category.findMany();
+  const createdBrands = await db.brand.findMany();
+  const createdSuppliers = await db.supplier.findMany();
+
+  // Seed Products
+  const productsData = Array.from({ length: 50 }, (_, i) => ({
+    name: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    content: faker.lorem.paragraph(),
+    sku: faker.internet.displayName(),
+    slug: faker.lorem.slug(),
+    productCode: faker.lorem.slug(),
+    image: faker.image.urlPlaceholder(),
+    price: parseFloat(faker.commerce.price()),
+    bayPrice: parseFloat(faker.commerce.price()),
+    tax: parseFloat(faker.finance.amount()),
+    batchNumber: faker.commerce.productMaterial(),
+    costPrice: parseFloat(faker.commerce.price()),
+    quantity: faker.number.int(),
+    expiryDate: faker.date.future().toISOString(),
+    alertQuantity: faker.number.int(),
+    stockQuantity: faker.number.int(),
+    barcode: faker.vehicle.manufacturer(),
+    unitId: createdUnits[i % createdUnits.length].id,
+    brandId: createdBrands[i % createdBrands.length].id,
+    categoryId: createdCategories[i % createdCategories.length].id,
+    supplierId: createdSuppliers[i % createdSuppliers.length].id,
+  }));
+
+  await db.product.createMany({
+    data: productsData,
+  });
+
+  console.log(
+    "Seeded users, shops,supplier, brand, unit,category , product and customers successfully!"
+  );
 }
 
 main()

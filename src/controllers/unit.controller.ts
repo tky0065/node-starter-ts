@@ -3,10 +3,19 @@ import { db } from '@/db/db';
 
 export const createUnit = async (req: Request, res: Response) => {
     try {
-        const unit = await db.unit.create({
-            data: req.body,
+        // check if slug  already exist
+        const existingUnit = await db.unit.findFirst({
+            where: { slug: req.body.slug },
         });
-        res.status(201).json(unit);
+        if (existingUnit) {
+            res.status(409).json({ error: 'Unit with this slug already exists' });
+            return;
+        }
+
+      const unit = await db.unit.create({
+        data: req.body,
+      });
+      res.status(201).json(unit);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create unit' });
     }
@@ -49,6 +58,19 @@ export const updateUnit = async (req: Request, res: Response) => {
             res.status(404).json({ error: 'Unit not found' });
             return;
         }
+        // check if slug  already exists if user is updating  slug
+        if (req.body.slug) {
+            const existingUnit = await db.unit.findFirst({
+                where: {
+                    slug: req.body.slug,
+                },
+            });
+            if (existingUnit) {
+                res.status(409).json({ error: 'Unit with this slug already exists' });
+                return;
+            }
+        }
+        
         const unit = await db.unit.update({
             where: { id },
             data: req.body,

@@ -12,7 +12,7 @@ const productSchema = z.object({
     price: z.number(),
     bayPrice: z.number(),
     tax: z.number().optional(),
-    bachNumber: z.string().optional(),
+    batchNumber: z.string().optional(),
     costPrice: z.number(),
     quantity: z.number(),
     expiryDate: z.date().optional(),

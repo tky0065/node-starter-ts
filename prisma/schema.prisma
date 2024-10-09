@@ -127,7 +127,7 @@ model Product {
   price       Float
   bayPrice    Float
   tax         Float?
-  bachNumber  String?
+  batchNumber  String?
   costPrice   Float
   quantity    Int
   expiryDate  DateTime?
