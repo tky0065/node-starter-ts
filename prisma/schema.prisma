@@ -30,6 +30,8 @@ model Customer {
   location  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  Order Order[]
 }
 
 
@@ -62,6 +64,8 @@ model Shop {
   adminId      String   @db.ObjectId
   admin        User     @relation(fields: [adminId], references: [id])
   attendantIds String[] @db.ObjectId
+
+  Products Product[]
 }
 
 model Supplier {
@@ -125,6 +129,7 @@ model Product {
   productCode String?  @unique
   image       String?  @default("https://utfs.io/f/irA39Q64G7WRu6dordcskJy5SWnRPwVmc4jqhgAe3ZMHvdxi")
   price       Float
+  wholeSalePrice Float @default(0)
   bayPrice    Float
   tax         Float?
   batchNumber  String?
@@ -137,6 +142,8 @@ model Product {
   unitId      String   @db.ObjectId
   unit        Unit     @relation(fields: [unitId], references: [id])
   brandId     String   @db.ObjectId
+  shopId      String   @db.ObjectId
+  shop        Shop     @relation(fields: [shopId], references: [id])
   brand       Brand    @relation(fields: [brandId], references: [id])
   categoryId  String   @db.ObjectId
   category    Category @relation(fields: [categoryId], references: [id])
@@ -146,6 +153,63 @@ model Product {
   updatedAt   DateTime @updatedAt
 
   
+
+  OrderItems OrderItem[]
+
+  Sale Sale[]
+}
+
+model Order {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderNumber String @unique
+  customerId  String   @db.ObjectId
+  customerName String
+  customerEmail String?
+  orderAmount Float?
+  orderType  String?
+  status     OrderStatus @default(PENDING)
+  customer    Customer @relation(fields: [customerId], references: [id])
+  paymentMethode String?
+  transactionCode String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orderItems       OrderItem[]
+  sales      Sale[]
+
+}
+
+model Sale {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+
+  orderId    String   @db.ObjectId
+  order      Order    @relation(fields: [orderId], references: [id])
+  productId  String   @db.ObjectId
+  product    Product  @relation(fields: [productId], references: [id])
+  quantity   Int
+  salePrice  Float
+  productName String
+  productImage String?
+  customerName String
+  customerEmail String?
+  totalAmount Float
+  paymentMethode String?
+  transactionCode String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+}
+model OrderItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  quantity  Int
+  price     Float
+  productThumbnail String
+  orderId   String   @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Role {
@@ -153,6 +217,12 @@ enum Role {
   ATTENDANT
 }
 
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  DELIVERED
+  CANCELED
+}
 enum Gender {
   MALE
   FEMALE
