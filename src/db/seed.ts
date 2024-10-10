@@ -247,9 +247,9 @@ const saleItemsData = Array.from({ length: 5 }, (_, i) => ({
   productImage: createdProducts[i % createdProducts.length].image,
 }));
 
-await db.saleItem.createMany({
-  data: saleItemsData,
-});
+// await db.saleItem.createMany({
+//   data: saleItemsData,
+// });
 
 
   console.log(
