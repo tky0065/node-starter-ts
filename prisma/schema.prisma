@@ -67,6 +67,8 @@ model Shop {
   attendantIds String[] @db.ObjectId
   sales        Sale[]
   Products Product[]
+
+  Expenses Expense[]
 }
 
 model Supplier {
@@ -192,6 +194,42 @@ model SaleItem {
   updatedAt       DateTime @updatedAt
 }
 
+model Payee{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  phone       String    @unique
+  email       String?   @unique
+ 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  Expenses Expense[]
+}
+
+model ExpenseCategory{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  slug        String    @unique
+  expenses    Expense[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+model Expense{
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  amount      Float
+  description String
+  attachments  String[]
+  expenseDate DateTime  @default(now())
+  shopId      String    @db.ObjectId
+  shop        Shop      @relation(fields: [shopId], references: [id])
+  categoryId  String    @db.ObjectId
+  category    ExpenseCategory @relation(fields: [categoryId], references: [id])
+  payeeId     String    @db.ObjectId
+  payee       Payee     @relation(fields: [payeeId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
 enum Role {
   ADMIN
   ATTENDANT
