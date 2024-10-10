@@ -155,17 +155,17 @@ model Product {
 
 model Sale {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  orderNumber   String        @default(uuid())
+  saleNumber   String        @default(uuid())
   customerId    String        @db.ObjectId
   customerName  String
   customerEmail String?
-  orderAmount   Float?
+  saleAmount   Float?
   balanceAmount Float?        @default(0)
   paidAmount    Float?        @default(0)
   creditAmount  Float?        @default(0)
-  status        OrderStatus   @default(PENDING)
+  status        SaleStatus   @default(PENDING)
   saleType SaleType @default(PAID)
-  paymentMethode  String?
+  paymentMethode  PaymentMethode @default(CASH)
   transactionCode String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -181,14 +181,9 @@ model SaleItem {
   saleId          String   @db.ObjectId
   sale            Sale     @relation(fields: [saleId], references: [id])
   quantity        Int
-  salePrice       Float
+  productPrice    Float
   productName     String
   productImage    String?
-  customerName    String
-  customerEmail   String?
-  totalAmount     Float
-  paymentMethode  PaymentMethode @default(CASH)
-  transactionCode String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -210,7 +205,7 @@ enum PaymentMethode {
   CREDIT_CARD
   OTHER
 }
-enum OrderStatus {
+enum SaleStatus {
   PENDING
   COMPLETED
   DELIVERED

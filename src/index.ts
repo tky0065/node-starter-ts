@@ -7,6 +7,7 @@ import productRouter from "./routes/product.route";
 import categoryRouter from "./routes/category.route";
 import brandRouter from "./routes/brand.route";
 import unitRouter from "./routes/unit.route";
+import salesRouter from "./routes/sale.route";
 
 require("dotenv").config();
 const cors = require("cors");
@@ -25,6 +26,7 @@ app.use("/api/v1", productRouter);
 app.use("/api/v1", categoryRouter);
 app.use("/api/v1", brandRouter);
 app.use("/api/v1", unitRouter);
+app.use("/api/v1", salesRouter);
 
 
 app.listen(PORT, () => {

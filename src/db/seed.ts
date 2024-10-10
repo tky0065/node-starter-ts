@@ -137,6 +137,7 @@ async function main() {
   const createdCategories = await db.category.findMany();
   const createdBrands = await db.brand.findMany();
   const createdSuppliers = await db.supplier.findMany();
+   const createShop = await db.shop.findMany();
 
   // Seed Products
   const productsData = Array.from({ length: 50 }, (_, i) => ({
@@ -152,12 +153,14 @@ async function main() {
     tax: parseFloat(faker.finance.amount()),
     batchNumber: faker.commerce.productMaterial(),
     costPrice: parseFloat(faker.commerce.price()),
+    wholeSalePrice: parseFloat(faker.commerce.price()),
     quantity: faker.number.int(),
     expiryDate: faker.date.future().toISOString(),
     alertQuantity: faker.number.int(),
     stockQuantity: faker.number.int(),
     barcode: faker.vehicle.manufacturer(),
     unitId: createdUnits[i % createdUnits.length].id,
+    shopId: createShop[i % createShop.length].id,
     brandId: createdBrands[i % createdBrands.length].id,
     categoryId: createdCategories[i % createdCategories.length].id,
     supplierId: createdSuppliers[i % createdSuppliers.length].id,
