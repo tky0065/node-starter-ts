@@ -171,6 +171,47 @@ async function main() {
   await db.product.createMany({
     data: productsData,
   });
+
+  // Seed Payees
+  const payeesData = Array.from({ length: 10 }, () => ({
+    name: faker.person.fullName(),
+    phone: faker.phone.number(),
+    email: faker.internet.email(),
+  }));
+
+  await db.payee.createMany({
+    data: payeesData,
+  });
+
+  // Seed ExpenseCategories
+  const expenseCategoriesData = Array.from({ length: 5 }, () => ({
+    name: faker.commerce.department(),
+    slug: faker.lorem.slug(),
+  }));
+
+  await db.expenseCategory.createMany({
+    data: expenseCategoriesData,
+  });
+
+  // Retrieve created payees, expense categories, and shops to get their IDs
+  const createdPayees = await db.payee.findMany();
+  const createdExpenseCategories = await db.expenseCategory.findMany();
+
+  // Seed Expenses
+  const expensesData = Array.from({ length: 20 }, (_, i) => ({
+    title: faker.commerce.productName(),
+    amount: parseFloat(faker.finance.amount({ min: 5, max: 10000 })),
+    description: faker.lorem.paragraph(),
+    attachments: [faker.image.url(), faker.image.url()],
+    expenseDate: faker.date.past().toISOString(),
+    shopId: createShop[i % createShop.length].id,
+    categoryId: createdExpenseCategories[i % createdExpenseCategories.length].id,
+    payeeId: createdPayees[i % createdPayees.length].id,
+  }));
+
+  await db.expense.createMany({
+    data: expensesData,
+  });
 // Retrieve created customers and products to get their IDs
 const createdCustomers = await db.customer.findMany();
 const createdProducts = await db.product.findMany();
@@ -221,7 +262,9 @@ await db.saleItem.createMany({
     - Units
     - Categories
     - Products
-    
+    - Payees
+    - Expense Categories
+    - Expenses
     - Customers
     `
   );
