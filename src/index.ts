@@ -9,6 +9,9 @@ import shopRouter from "./routes/shop.route";
 import supplierRouter from "./routes/supplier.route";
 import unitRouter from "./routes/unit.route";
 import userRouter from "./routes/user.route";
+import expenseCategoryRouter from "./routes/expense-category.route";
+import payeeRouter from "./routes/payee.route";
+import expenseRouter from "./routes/expense.route";
 
 require("dotenv").config();
 const cors = require("cors");
@@ -29,6 +32,10 @@ app.use("/api/v1", categoryRouter);
 app.use("/api/v1", brandRouter);
 app.use("/api/v1", unitRouter);
 app.use("/api/v1", salesRouter);
+app.use("/api/v1", expenseCategoryRouter);
+app.use("/api/v1", payeeRouter);
+app.use("/api/v1", expenseRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
