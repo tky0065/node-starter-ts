@@ -4,6 +4,8 @@ import {
   deleteSale,
   getSaleById,
   getSales,
+  getShopSales,
+  getShopsSales,
   updateSale,
 } from "@/controllers/sale.controller";
 import { validateData } from "@/middleware/validationMiddleware";
@@ -20,6 +22,8 @@ const salesRouter = express.Router();
 
 // Get all sales
 salesRouter.get("/sales", auth, getSales);
+salesRouter.get("/sales/shop/:shopId", auth, getShopSales);
+salesRouter.get("/sales/all-shops", auth, getShopsSales);
 
 // Get a single Sales by ID
 salesRouter.get("/sales/:id", auth, getSaleById);

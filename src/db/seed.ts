@@ -197,7 +197,7 @@ await db.sale.createMany({
 const createdSales = await db.sale.findMany();
 
 // Seed SaleItems
-const saleItemsData = Array.from({ length: 50 }, (_, i) => ({
+const saleItemsData = Array.from({ length: 5 }, (_, i) => ({
   productId: createdProducts[i % createdProducts.length].id,
   saleId: createdSales[i % createdSales.length].id,
   quantity: faker.number.int({ min: 1, max: 10 }),

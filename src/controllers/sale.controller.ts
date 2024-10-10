@@ -1,5 +1,13 @@
 import { db } from "@/db/db";
 import { SaleItemProps } from "@/types/types";
+import {
+  endOfDay,
+  endOfMonth,
+  endOfWeek,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+} from "date-fns";
 
 import { Request, Response } from "express";
 
@@ -226,3 +234,168 @@ export const deleteSale = async (req: Request, res: Response) => {
     res.status(500).json({ error: `Failed to delete sale ${error}` });
   }
 };
+
+export const getShopSales = async (req: Request, res: Response) => {
+  const { shopId } = req.params;
+
+  if (!shopId) {
+    res.status(400).json({ error: "Shop ID is required", data: null });
+    return;
+  }
+
+  // Define time periods
+  const todayStart = startOfDay(new Date());
+  const todayEnd = endOfDay(new Date());
+  const weekStart = startOfWeek(new Date());
+  const weekEnd = endOfWeek(new Date());
+  const monthStart = startOfMonth(new Date());
+  const monthEnd = endOfMonth(new Date());
+
+  try {
+    // Fetch all sales and group by shopId for different periods
+    const fetchSalesData = async (startDate: Date, endDate: Date) => {
+      return await db.sale.findMany({
+        where: {
+          createdAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        select: {
+          shopId: true,
+          saleAmount: true,
+          balanceAmount: true,
+          paymentMethode: true,
+          saleType: true,
+        },
+      });
+    };
+    // Fetch sales for different periods
+    const categorizeSales = async (sales: any[]) => {
+      return {
+        total: sales,
+        salesPaidInCash: sales.filter(
+          (sale) => sale.paymentMethod === "CASH" && sale.balanceAmount <= 0
+        ),
+        salesPaidInBankTransfer: sales.filter(
+          (sale) => sale.paymentMethod === "BANK_TRANSFER"
+        ),
+        salesPaidInOther: sales.filter(
+          (sale) => sale.paymentMethod === "OTHER"
+        ),
+        salesPaidInCredit: sales.filter((sale) => sale.balanceAmount > 0),
+        salesByMobileMoney: sales.filter(
+          (sale) => sale.paymentMethod === "MOBILE_MONEY"
+        ),
+        salesByHandCash: sales.filter(
+          (sale) => sale.paymentMethod === "CASH" && sale.balanceAmount <= 0
+        ),
+      };
+    };
+
+    // fetch and categorize sales for different periods
+    const salesToday = await fetchSalesData(todayStart, todayEnd);
+    const salesThisWeek = await fetchSalesData(weekStart, weekEnd);
+    const salesThisMonth = await fetchSalesData(monthStart, monthEnd);
+
+    const salesAllTime = await db.sale.findMany({
+      select: {
+        shopId: true,
+        saleAmount: true,
+        balanceAmount: true,
+        paymentMethode: true,
+      },
+    });
+
+    res.status(200).json({
+      today: await categorizeSales(salesToday),
+      thisWeek: await categorizeSales(salesThisWeek),
+      thisMonth: await categorizeSales(salesThisMonth),
+      allTime: await categorizeSales(salesAllTime),
+      error: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Something went wrong",
+      data: null,
+    });
+  }
+};
+
+export async function getShopsSales(req: Request, res: Response) {
+  // Define time periods
+  const todayStart = startOfDay(new Date());
+  const todayEnd = endOfDay(new Date());
+  const weekStart = startOfWeek(new Date());
+  const weekEnd = endOfWeek(new Date());
+  const monthStart = startOfMonth(new Date());
+  const monthEnd = endOfMonth(new Date());
+
+  try {
+    // Fetch all sales and group by shopId for different periods
+    const fetchSalesData = async (startDate: Date, endDate: Date) => {
+      return await db.sale.findMany({
+        where: {
+          createdAt: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        select: {
+          shopId: true,
+          saleAmount: true,
+          balanceAmount: true,
+          paymentMethode: true,
+          saleType: true,
+        },
+      });
+    };
+    const categorizeSales = (sales: any[]) => {
+      return {
+        totalSales: sales,
+        salesPaidInCash: sales.filter(
+          (sale) => sale.paymentMethod === "CASH" && sale.balanceAmount <= 0
+        ),
+        salesPaidInBankTransfer: sales.filter(
+          (sale) => sale.paymentMethod === "BANK_TRANSFER"
+        ),
+        //OTHER
+        salesPaidInOther: sales.filter(
+          (sale) => sale.paymentMethod === "OTHER"
+        ),
+        salesPaidInCredit: sales.filter((sale) => sale.balanceAmount > 0),
+        salesByMobileMoney: sales.filter(
+          (sale) => sale.paymentMethod === "MOBILE_MONEY"
+        ),
+        salesByHandCash: sales.filter(
+          (sale) => sale.paymentMethod === "CASH" && sale.balanceAmount <= 0
+        ),
+      };
+    };
+
+    // fetch  and categorize sales for different periods
+    const salesToday = await fetchSalesData(todayStart, todayEnd);
+    const salesThisWeek = await fetchSalesData(weekStart, weekEnd);
+    const salesThisMonth = await fetchSalesData(monthStart, monthEnd);
+    const salesAllTime = await await db.sale.findMany({
+      select: {
+        shopId: true,
+        saleAmount: true,
+        balanceAmount: true,
+        paymentMethode: true,
+      },
+    });
+    res.status(200).json({
+      today: categorizeSales(salesToday),
+      thisWeek: categorizeSales(salesThisWeek),
+      thisMonth: categorizeSales(salesThisMonth),
+      allTime: categorizeSales(salesAllTime),
+      error: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Something went wrong",
+      data: null,
+    });
+  }
+}
