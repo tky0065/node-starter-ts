@@ -18,11 +18,11 @@ const saleItemSchema = z.object({
 const saleCreateSchema = z.object({
     saleNumber: z.string().optional(),
     customerId: z.string(),
+    shopId: z.string(),
     customerName: z.string(),
     customerEmail: z.string().email().optional(),
     saleAmount: z.number().optional(),
     balanceAmount: z.number().default(0),
-    paidAmount: z.number().default(0),
     creditAmount: z.number().default(0),
     status: SaleStatus.default("PENDING"),
     saleType: SaleType.default("PAID"),

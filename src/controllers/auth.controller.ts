@@ -95,6 +95,7 @@ export const forgetPassword: RequestHandler = async (
     if (error) {
       console.error(error);
       res.status(StatusCodes.BAD_REQUEST).json({ error });
+      return;
     }
     //  console.log(sendEmail)
     res.status(200).json({
@@ -145,7 +146,9 @@ export const verifyToken: RequestHandler = async (
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: `Internal Server Error ${error}` });
+    
   }
+
 };
 
 // change password

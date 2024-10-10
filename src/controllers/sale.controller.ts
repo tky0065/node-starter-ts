@@ -3,11 +3,68 @@ import { SaleItemProps } from "@/types/types";
 
 import { Request, Response } from "express";
 
+/**
+ * Crée une nouvelle vente et met à jour les informations du client et du produit en conséquence.
+ *
+ * @param req - L'objet de requête contenant les informations de la vente, y compris les articles de vente, le montant du solde, l'ID du client, etc.
+ * @param res - L'objet de réponse utilisé pour envoyer les réponses HTTP.
+ *
+ * @returns Une réponse HTTP avec le statut et les données de la vente créée.
+ *
+ * @throws Une erreur HTTP 404 si le client n'est pas trouvé.
+ * @throws Une erreur HTTP 400 si le montant du solde dépasse la limite de crédit maximale du client.
+ * @throws Une erreur HTTP 500 si la mise à jour du montant impayé du client ou de la quantité de produit échoue.
+ * @throws Une erreur HTTP 404 si la création d'un article de vente échoue.
+ */
 export const createSale = async (req: Request, res: Response) => {
   const saleItems: SaleItemProps[] = req.body.saleItems;
   try {
     const saleId = await db.$transaction(async (transaction) => {
       // create sale
+      // if balanceAmount > 0
+      if (req.body.balanceAmount > 0) {
+        // if a customer is buying on credit
+        const existingCustomer = await transaction.customer.findUnique({
+          where: { id: req.body.customerId },
+        });
+        if (!existingCustomer) {
+          res.status(404).json({
+            error: "Customer not found",
+            data: null,
+          });
+          return;
+        }
+        if (req.body.balanceAmount > existingCustomer.maxCreditLimit) {
+          res.status(403).json({
+            error: "this Customer is not allowed to buy on credit",
+            data: null,
+          });
+          return;
+        }
+        // create credit sale
+        // update customer unpaidAmount
+        //update customer maxCreditAmount
+        const unpaidAmount = parseFloat(req.body.balanceAmount);
+        const updatedCustomer = await transaction.customer.update({
+          where: { id: req.body.customerId },
+          data: {
+            unpaidCreditAmount: {
+              increment: req.body.balanceAmount,
+            },
+            maxCreditLimit: {
+              decrement: req.body.balanceAmount,
+            },
+          },
+        });
+
+        if (!updatedCustomer) {
+          res.status(500).json({
+            error: "Fail to update Customer unpaidAmount",
+            data: null,
+          });
+          return;
+        }
+      }
       const sale = await transaction.sale.create({
         data: {
           customerId: req.body.customerId,
@@ -19,6 +76,7 @@ export const createSale = async (req: Request, res: Response) => {
           balanceAmount: req.body.balanceAmount,
           paidAmount: req.body.paidAmount,
           transactionCode: req.body.transactionCode,
+          shopId: req.body.shopId,
         },
       });
 
@@ -39,6 +97,7 @@ export const createSale = async (req: Request, res: Response) => {
               error: "Fail to update Product Quantity ",
               data: null,
             });
+            return;
           }
 
           // create sale item
@@ -57,9 +116,7 @@ export const createSale = async (req: Request, res: Response) => {
               error: `Failed to create sale item for the Product   ${item.productNom}`,
               data: null,
             });
-            throw new Error(
-              "Failed to create sale item for the Product " + item.productNom
-            );
+            return;
           }
         }
       }
@@ -107,7 +164,7 @@ export const getSales = async (req: Request, res: Response) => {
     });
     res.status(200).json({ data: sales, error: null });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch sales" });
+    res.status(500).json({ error: `Failed to fetch sales ${error}` });
   }
 };
 
@@ -123,7 +180,7 @@ export const getSaleById = async (req: Request, res: Response) => {
     }
     res.status(200).json({ data: sale, error: null });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch sale" });
+    res.status(500).json({ error: `Failed to fetch sale ${error}` });
   }
 };
 

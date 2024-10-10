@@ -1,12 +1,14 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { min } from "date-fns";
 
 const db = new PrismaClient();
 
 async function main() {
   // Hash the password "admin111"
   const hashedPassword = await bcrypt.hash("admin111", 10);
+  console.log("Seeding in progress...");
 
   // Seed Users with hashed password
   const usersData = Array.from({ length: 10 }, () => ({
@@ -59,7 +61,7 @@ async function main() {
     lastName: faker.person.lastName(),
     phone: faker.phone.number(),
     gender: faker.helpers.arrayElement(["MALE", "FEMALE"]),
-    maxCreditLimit: parseFloat(faker.finance.amount()),
+    maxCreditLimit: parseFloat(faker.finance.amount({min: 1000, max: 1000000})),
     maxCreditDays: faker.helpers.rangeToNumber(20),
     taxPin: faker.finance.amount(),
     dob: faker.date.past().toISOString(),
@@ -94,7 +96,7 @@ async function main() {
     paymentTerms: faker.lorem.sentence(),
     logo: faker.image.url(),
     rating: parseFloat(faker.finance.amount()),
-    notes: faker.lorem.paragraph(),
+   
   }));
 
   await db.supplier.createMany({
@@ -137,7 +139,7 @@ async function main() {
   const createdCategories = await db.category.findMany();
   const createdBrands = await db.brand.findMany();
   const createdSuppliers = await db.supplier.findMany();
-   const createShop = await db.shop.findMany();
+  const createShop = await db.shop.findMany();
 
   // Seed Products
   const productsData = Array.from({ length: 50 }, (_, i) => ({
@@ -149,12 +151,12 @@ async function main() {
     productCode: faker.lorem.slug(),
     image: faker.image.urlPlaceholder(),
     price: parseFloat(faker.commerce.price()),
-    bayPrice: parseFloat(faker.commerce.price()),
+    bayPrice: parseFloat(faker.commerce.price({ min: 100, max: 1000000 })),
     tax: parseFloat(faker.finance.amount()),
     batchNumber: faker.commerce.productMaterial(),
-    costPrice: parseFloat(faker.commerce.price()),
+    costPrice: parseFloat(faker.commerce.price({ min: 100, max: 1000000 })),
     wholeSalePrice: parseFloat(faker.commerce.price()),
-    quantity: faker.number.int(),
+    quantity: faker.number.int({ min: 5, max: 1000000 }),
     expiryDate: faker.date.future().toISOString(),
     alertQuantity: faker.number.int(),
     stockQuantity: faker.number.int(),
@@ -169,9 +171,59 @@ async function main() {
   await db.product.createMany({
     data: productsData,
   });
+// Retrieve created customers and products to get their IDs
+const createdCustomers = await db.customer.findMany();
+const createdProducts = await db.product.findMany();
+
+// Seed Sales
+const salesData = Array.from({ length: 20 }, (_, i) => ({
+  customerId: createdCustomers[i % createdCustomers.length].id,
+  customerName: createdCustomers[i % createdCustomers.length].firstName + " " + createdCustomers[i % createdCustomers.length].lastName,
+  customerEmail: createdCustomers[i % createdCustomers.length].email,
+  saleAmount: parseFloat(faker.commerce.price()),
+  balanceAmount: parseFloat(faker.finance.amount()),
+  paidAmount: parseFloat(faker.finance.amount()),
+  saleType: faker.helpers.arrayElement(["PAID", "CREDIT"]),
+  paymentMethode: faker.helpers.arrayElement(["CASH", "MOBILE_MONEY", "BANK_TRANSFER", "CREDIT_CARD", "OTHER"]),
+  transactionCode: faker.finance.transactionType(),
+  shopId: createShop[i % createShop.length].id,
+}));
+
+await db.sale.createMany({
+  data: salesData,
+});
+
+// Retrieve created sales to get their IDs
+const createdSales = await db.sale.findMany();
+
+// Seed SaleItems
+const saleItemsData = Array.from({ length: 50 }, (_, i) => ({
+  productId: createdProducts[i % createdProducts.length].id,
+  saleId: createdSales[i % createdSales.length].id,
+  quantity: faker.number.int({ min: 1, max: 10 }),
+  productPrice: parseFloat(faker.commerce.price()),
+  productName: createdProducts[i % createdProducts.length].name,
+  productImage: createdProducts[i % createdProducts.length].image,
+}));
+
+await db.saleItem.createMany({
+  data: saleItemsData,
+});
+
 
   console.log(
-    "Seeded users, shops,supplier, brand, unit,category , product and customers successfully!"
+    `
+    Seeded the following successfully:
+    - Users
+    - Shops
+    - Suppliers
+    - Brands
+    - Units
+    - Categories
+    - Products
+    
+    - Customers
+    `
   );
 }
 
