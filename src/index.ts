@@ -1,6 +1,6 @@
 import express from "express";
+import path from "path";
 import swaggerUi from "swagger-ui-express";
-import { specs } from "./swagger";
 import {
   genralRequestLimiter,
   strictRequestLimiter,
@@ -21,15 +21,18 @@ import shopRouter from "./routes/shop.route";
 import supplierRouter from "./routes/supplier.route";
 import unitRouter from "./routes/unit.route";
 import userRouter from "./routes/user.route";
-import path from "path";
+import { specs } from "./swagger";
 
 require("dotenv").config();
 
 const cors = require("cors");
 
 const app = express();
+const corsOptions = {
+  origin: ["https://point-vente-api.onrender.com/"],
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
@@ -38,7 +41,7 @@ app.use(genralRequestLimiter);
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
- 
+
 // Home route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
