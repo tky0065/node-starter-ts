@@ -75,33 +75,37 @@ Cette API est un service de gestion de ventes développé avec Node.js, TypeScri
 
 ## Endpoints principaux
 
-| Méthode | Endpoint                | Description                          |
-| ------- | ----------------------- | ------------------------------------ |
-| POST    | `/api/v1/auth/login`    | Authentifier un utilisateur          |
-| GET     | `/api/v1/customers`     | Récupérer la liste des clients       |
-| POST    | `/api/v1/customers`     | Ajouter un nouveau client            |
-| GET     | `/api/v1/users`         | Récupérer la liste des utilisateurs  |
-| POST    | `/api/v1/users`         | Ajouter un nouvel utilisateur        |
-| GET     | `/api/v1/shops`         | Récupérer la liste des magasins      |
-| POST    | `/api/v1/shops`         | Ajouter un nouveau magasin           |
-| GET     | `/api/v1/suppliers`     | Récupérer la liste des fournisseurs  |
-| POST    | `/api/v1/suppliers`     | Ajouter un nouveau fournisseur       |
-| GET     | `/api/v1/products`      | Récupérer la liste des produits      |
-| POST    | `/api/v1/products`      | Ajouter un nouveau produit           |
-| GET     | `/api/v1/categories`    | Récupérer la liste des catégories    |
-| POST    | `/api/v1/categories`    | Ajouter une nouvelle catégorie       |
-| GET     | `/api/v1/brands`        | Récupérer la liste des marques       |
-| POST    | `/api/v1/brands`        | Ajouter une nouvelle marque          |
-| GET     | `/api/v1/units`         | Récupérer la liste des unités        |
-| POST    | `/api/v1/units`         | Ajouter une nouvelle unité           |
-| GET     | `/api/v1/expenses`      | Récupérer la liste des dépenses      |
-| POST    | `/api/v1/expenses`      | Ajouter une nouvelle dépense         |
-| GET     | `/api/v1/adjustements`  | Récupérer la liste des ajustements   |
-| POST    | `/api/v1/adjustements`  | Ajouter un nouvel ajustement         |
-| GET     | `/api/v1/notifications` | Récupérer la liste des notifications |
-| POST    | `/api/v1/notifications` | Ajouter une nouvelle notification    |
-| GET     | `/api/v1/payees`        | Récupérer la liste des bénéficiaires |
-| POST    | `/api/v1/payees`        | Ajouter un nouveau bénéficiaire      |
+| GET | `/api/v1/customers` | Récupérer la liste des clients |
+| POST | `/api/v1/customers` | Ajouter un nouveau client |
+| GET | `/api/v1/users` | Récupérer la liste des utilisateurs |
+| POST | `/api/v1/users` | Ajouter un nouvel utilisateur |
+| POST | `/api/v1/auth/login` | Authentifier un utilisateur |
+| GET | `/api/v1/shops` | Récupérer la liste des magasins |
+| POST | `/api/v1/shops` | Ajouter un nouveau magasin |
+| GET | `/api/v1/suppliers` | Récupérer la liste des fournisseurs |
+| POST | `/api/v1/suppliers` | Ajouter un nouveau fournisseur |
+| GET | `/api/v1/products` | Récupérer la liste des produits |
+| POST | `/api/v1/products` | Ajouter un nouveau produit |
+| GET | `/api/v1/categories` | Récupérer la liste des catégories |
+| POST | `/api/v1/categories` | Ajouter une nouvelle catégorie |
+| GET | `/api/v1/brands` | Récupérer la liste des marques |
+| POST | `/api/v1/brands` | Ajouter une nouvelle marque |
+| GET | `/api/v1/units` | Récupérer la liste des unités |
+| POST | `/api/v1/units` | Ajouter une nouvelle unité |
+| GET | `/api/v1/sales` | Récupérer la liste des ventes |
+| POST | `/api/v1/sales` | Ajouter une nouvelle vente |
+| GET | `/api/v1/expense-categories` | Récupérer la liste des catégories de dépenses |
+| POST | `/api/v1/expense-categories` | Ajouter une nouvelle catégorie de dépense |
+| GET | `/api/v1/payees` | Récupérer la liste des bénéficiaires |
+| POST | `/api/v1/payees` | Ajouter un nouveau bénéficiaire |
+| GET | `/api/v1/expenses` | Récupérer la liste des dépenses |
+| POST | `/api/v1/expenses` | Ajouter une nouvelle dépense |
+| GET | `/api/v1/adjustments` | Récupérer la liste des ajustements |
+| POST | `/api/v1/adjustments` | Ajouter un nouvel ajustement |
+| GET | `/api/v1/notifications` | Récupérer la liste des notifications |
+| POST | `/api/v1/notifications` | Ajouter une nouvelle notification |
+| GET | `/api/v1/purchases` | Récupérer la liste des achats |
+| POST | `/api/v1/purchases` | Ajouter un nouvel achat |
 
 ## Mises à jour à venir
 
