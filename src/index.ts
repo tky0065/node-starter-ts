@@ -1,22 +1,24 @@
-import express, { NextFunction } from "express";
-import { Request, Response } from 'express';
+import express from "express";
+import {
+  genralRequestLimiter,
+  strictRequestLimiter,
+} from "./middleware/rate-limite.middleware";
+import adjustementRouter from "./routes/adjustment.route";
 import authRouter from "./routes/auth.route";
 import brandRouter from "./routes/brand.route";
 import categoryRouter from "./routes/category.route";
 import customerRouter from "./routes/customer.route";
+import expenseCategoryRouter from "./routes/expense-category.route";
+import expenseRouter from "./routes/expense.route";
+import notificationRouter from "./routes/notification.route";
+import payeeRouter from "./routes/payee.route";
 import productRouter from "./routes/product.route";
+import purchaseRouter from "./routes/purchase.route";
 import salesRouter from "./routes/sale.route";
 import shopRouter from "./routes/shop.route";
 import supplierRouter from "./routes/supplier.route";
 import unitRouter from "./routes/unit.route";
 import userRouter from "./routes/user.route";
-import expenseCategoryRouter from "./routes/expense-category.route";
-import payeeRouter from "./routes/payee.route";
-import expenseRouter from "./routes/expense.route";
-import { genralRequestLimiter, strictRequestLimiter } from "./middleware/rate-limite.middleware";
-import rateLimit from "express-rate-limit";
-import notificationRouter from "./routes/notification.route";
-import adjustementRouter from "./routes/adjustment.route";
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
@@ -25,15 +27,10 @@ app.use(cors());
 
 app.use(genralRequestLimiter);
 
-
 // Apply stricter rate limit to sensitive routes
 app.use("/api/v1/sales", strictRequestLimiter);
 app.use("/api/v1/users", strictRequestLimiter);
 app.use("/api/v1/expenses", strictRequestLimiter);
-
-
-
-
 
 app.use(express.json());
 app.use("/api/v1", customerRouter);
@@ -51,8 +48,7 @@ app.use("/api/v1", payeeRouter);
 app.use("/api/v1", expenseRouter);
 app.use("/api/v1", notificationRouter);
 app.use("/api/v1", adjustementRouter);
-
-
+app.use("/api/v1", purchaseRouter);
 
 const PORT = process.env.PORT || 10000;
 

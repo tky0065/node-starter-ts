@@ -1,0 +1,40 @@
+Ce projet est une application de gestion des ventes, des achats, et des stocks conçue pour les commerces. Il utilise Prisma pour interagir avec une base de données MongoDB et se structure autour de plusieurs modèles représentant différentes entités dans le système. Voici une description détaillée du projet :
+
+Contexte du projet
+
+L'application permet de gérer des informations clés telles que les ventes, les produits, les fournisseurs, les clients, et les utilisateurs. Elle est pensée pour automatiser et simplifier les tâches liées à la gestion commerciale, en fournissant des fonctionnalités comme le suivi des ventes, la gestion des stocks, la gestion des commandes d'achat, et l'enregistrement des dépenses.
+Fonctionnalités principales
+
+Gestion des clients
+
+L'application permet de gérer différents types de clients, qu'il s'agisse de détaillants, de grossistes, ou de distributeurs. Chaque client dispose d'un profil complet avec des informations telles que son prénom, nom, téléphone, email, et le montant de crédit non payé. Il est possible de définir des limites de crédit ainsi que la durée maximale pour le remboursement. Ce module permet également de suivre les ventes et les crédits liés à chaque client.
+
+Gestion des utilisateurs
+
+L'application différencie les rôles des utilisateurs : les administrateurs et les employés (ou vendeurs). Chaque utilisateur possède un compte avec des informations telles que le nom d'utilisateur, l'email, le rôle, ainsi que des détails personnels comme la date de naissance et le genre. Les utilisateurs peuvent être associés à plusieurs boutiques.
+
+Gestion des produits et des fournisseurs
+
+Chaque produit possède un nom, une description, un prix, et des informations liées à la gestion des stocks comme la quantité disponible et la date d'expiration. Les produits peuvent être liés à une marque, une catégorie, et un fournisseur. La gestion des fournisseurs permet d'associer des produits à des fournisseurs spécifiques et de définir des termes de paiement ainsi que d'autres informations liées à la gestion des fournisseurs.
+
+Gestion des ventes
+
+Le module de gestion des ventes permet de suivre chaque vente avec des informations telles que le montant total, le montant payé, le solde restant, et le mode de paiement utilisé (espèces, mobile money, transfert bancaire, etc.). Chaque vente peut être attribuée à un client spécifique et peut inclure plusieurs articles avec des quantités spécifiques.
+
+Gestion des commandes d'achat
+
+Les commandes d'achat permettent de suivre les achats effectués auprès des fournisseurs. Chaque commande inclut des informations sur le fournisseur, les produits commandés, les montants totaux, les taxes, les frais d'expédition, et les éventuelles remises. Le statut de la commande peut être marqué comme "payée", "non payée", ou "partiellement payée".
+
+Gestion des dépenses
+
+L'application offre également la possibilité d'enregistrer des dépenses liées à l'activité de la boutique, comme les frais d'exploitation. Chaque dépense peut être associée à une catégorie et à un bénéficiaire spécifique. Cela permet de garder une trace des sorties d'argent et d'améliorer la gestion financière de l'entreprise.
+
+Notifications et ajustements
+
+Le système génère des notifications pour informer les utilisateurs des événements importants, comme des avertissements ou des informations liées à la gestion des ventes. De plus, des ajustements de stock peuvent être effectués pour corriger les quantités de produits disponibles en cas de besoin.
+
+Technologies utilisées
+
+    Prisma : utilisé pour interagir avec la base de données MongoDB, facilitant la gestion des données avec un ORM moderne et performant.
+    MongoDB : base de données NoSQL utilisée pour stocker les informations relatives aux ventes, produits, clients, utilisateurs, et autres entités du système.
+    Node.js : backend utilisé pour construire les APIs REST qui gèrent les différentes fonctionnalités de l'application.

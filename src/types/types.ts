@@ -21,5 +21,16 @@ export interface AdjustmentItem {
     productName: string;
    
 }
+export interface PurchaseOrderItem {
 
+    productId: string;
+    productName: string;
+    unitCost: number;
+    subTotal: number;
+    currentStock: number;
+    purchaseOrderId: string;
+    quantity: number;
+    
+   
+}
 
