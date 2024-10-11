@@ -1,7 +1,6 @@
 import express from "express";
-import path from "path";
-import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
+import { specs } from "./swagger";
 import {
   genralRequestLimiter,
   strictRequestLimiter,
@@ -22,43 +21,27 @@ import shopRouter from "./routes/shop.route";
 import supplierRouter from "./routes/supplier.route";
 import unitRouter from "./routes/unit.route";
 import userRouter from "./routes/user.route";
-import { specs } from "./swagger";
+import path from "path";
 
 require("dotenv").config();
 
 const cors = require("cors");
 
 const app = express();
-const corsOptions = {
-  origin: ["https://point-vente-api.onrender.com/"],
-};
 
-app.use(cors(corsOptions));
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"], // Allow resources from your own domain
-        scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts
-        imgSrc: ["'self'", "data:", "https://point-vente-api.onrender.com"], // Allow images and favicons from your domain
-        styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
-        connectSrc: ["'self'", "https://point-vente-api.onrender.com"], // Allow API connections to your domain
-        // Add more directives as needed
-      },
-    },
-  })
-);
+app.use(cors());
+
 // Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(genralRequestLimiter);
 
-// Serve static files from the 'public' directory inside 'src'
-app.use(express.static(path.join(__dirname, "src", "public")));
-
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
+ 
 // Home route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "src", "public", "home.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 // Apply stricter rate limit to sensitive routes
 app.use("/api/v1/sales", strictRequestLimiter);
