@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 import {
   genralRequestLimiter,
@@ -33,7 +34,20 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"], // Allow resources from your own domain
+        scriptSrc: ["'self'", "'unsafe-inline'"], // Allow inline scripts
+        imgSrc: ["'self'", "data:", "https://point-vente-api.onrender.com"], // Allow images and favicons from your domain
+        styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
+        connectSrc: ["'self'", "https://point-vente-api.onrender.com"], // Allow API connections to your domain
+        // Add more directives as needed
+      },
+    },
+  })
+);
 // Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
