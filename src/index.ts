@@ -1,6 +1,6 @@
 import express from "express";
+import path from "path";
 import swaggerUi from "swagger-ui-express";
-import { specs } from "./swagger";
 import {
   genralRequestLimiter,
   strictRequestLimiter,
@@ -21,7 +21,7 @@ import shopRouter from "./routes/shop.route";
 import supplierRouter from "./routes/supplier.route";
 import unitRouter from "./routes/unit.route";
 import userRouter from "./routes/user.route";
-import path from "path";
+import { specs } from "./swagger";
 
 require("dotenv").config();
 
@@ -38,10 +38,10 @@ app.use(genralRequestLimiter);
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
- 
+
 // Home route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "home.html"));
 });
 // Apply stricter rate limit to sensitive routes
 app.use("/api/v1/sales", strictRequestLimiter);
