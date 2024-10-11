@@ -46,5 +46,3 @@ export const allSchemas = {
     schemas: replaceReferences(typedSchema.definitions),
   },
 };
-
-console.log(JSON.stringify(allSchemas, null, 2));

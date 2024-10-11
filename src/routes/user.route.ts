@@ -89,7 +89,7 @@ userRouter.get("/attendants", auth, getAttendants);
  * /api/v1/auth/login:
  *   post:
  *     summary: User login
- *      tags: [Auth]
+ *     tags: [Auth]
  *     description: Authenticate a user and return a token.
  *     requestBody:
  *       required: true
