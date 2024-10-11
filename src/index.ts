@@ -36,7 +36,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(genralRequestLimiter);
 
-// Serve static files from the 'public' directory
+// Serve static files from the 'public' directory in dist
 app.use(express.static(path.join(__dirname, "public")));
 
 // Home route
