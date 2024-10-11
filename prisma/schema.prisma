@@ -13,6 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator jsonSchema {
+  provider              = "prisma-json-schema-generator"
+  output                = "../src/generated"
+  // keepRelationScalarFields = "true"
+  // schemaId = "some-schema-id"
+  includeRequiredFields = "true"
+  //persistOriginalType = "true"
+  // forceAnyOf = "true"
+}
+
 model Customer {
   id                 String       @id @default(auto()) @map("_id") @db.ObjectId
   customerType       CustomerType

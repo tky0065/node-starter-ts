@@ -1,0 +1,79 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "$Enums.CustomerType": {
+            "enum": [
+                "DISTRIBUTOR",
+                "OTHER",
+                "RETAIL",
+                "WHOLESALE"
+            ],
+            "type": "string"
+        },
+        "$Enums.Gender": {
+            "enum": [
+                "FEMALE",
+                "MALE"
+            ],
+            "type": "string"
+        }
+    },
+    "properties": {
+        "country": {
+            "type": "string"
+        },
+        "createdAt": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "customerType": {
+            "$ref": "#/definitions/$Enums.CustomerType"
+        },
+        "dob": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        },
+        "firstName": {
+            "type": "string"
+        },
+        "gender": {
+            "$ref": "#/definitions/$Enums.Gender"
+        },
+        "id": {
+            "type": "string"
+        },
+        "lastName": {
+            "type": "string"
+        },
+        "location": {
+            "type": "string"
+        },
+        "maxCreditDays": {
+            "type": "number"
+        },
+        "maxCreditLimit": {
+            "type": "number"
+        },
+        "nationalId": {
+            "type": "string"
+        },
+        "phone": {
+            "type": "string"
+        },
+        "taxPin": {
+            "type": "string"
+        },
+        "unpaidCreditAmount": {
+            "type": "number"
+        },
+        "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+

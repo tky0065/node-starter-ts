@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation de l'API POST VENTE (POS)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-blue-600 shadow-lg">
+    <nav class="container mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-bold text-white">API POST VENTE (POS)</div>
+        <div>
+          <a href="#" class="text-white hover:text-gray-200 px-3 py-2">Accueil</a>
+          <a href="/api-docs" class="text-white hover:text-gray-200 px-3 py-2">Documentation</a>
+          <a href="#" class="text-white hover:text-gray-200 px-3 py-2">Support</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container mx-auto px-6 py-12">
+    <section class="text-center mb-16">
+      <h1 class="text-5xl font-bold text-blue-600 mb-6">Bienvenue dans la documentation de l'API POST VENTE (POS)</h1>
+      <p class="text-2xl text-gray-700">Renforcez vos systèmes de point de vente avec des solutions API robustes et flexibles</p>
+    </section>
+
+    <section class="grid md:grid-cols-2 gap-12 mb-16">
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-3xl font-semibold text-blue-600 mb-6">Fonctionnalités clés</h2>
+        <ul class="list-disc list-inside text-gray-700">
+          <li>Traitement des transactions en temps réel</li>
+          <li>Intégration de la gestion des stocks</li>
+          <li>Synchronisation des données clients</li>
+          <li>Support multi-sites</li>
+          <li>Rapports personnalisables</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-3xl font-semibold text-blue-600 mb-6">Commencer</h2>
+        <p class="text-gray-700 mb-6">Suivez ces étapes pour intégrer l'API POST VENTE (POS) dans votre système :</p>
+        <ol class="list-decimal list-inside text-gray-700">
+          <li>Inscrivez-vous pour obtenir une clé API</li>
+          <li>Consultez notre documentation complète</li>
+          <li>Testez l'API dans notre environnement sandbox</li>
+          <li>Implémentez l'API dans votre application</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-16">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-6">Points de terminaison de l'API</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full">
+          <thead>
+            <tr class="bg-blue-100">
+              <th class="px-4 py-2 text-left text-blue-700">Point de terminaison</th>
+              <th class="px-4 py-2 text-left text-blue-700">Description</th>
+              <th class="px-4 py-2 text-left text-blue-700">Méthode</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/transactions</td>
+              <td class="border px-4 py-2 text-gray-700">Traiter une nouvelle transaction</td>
+              <td class="border px-4 py-2 text-gray-700">POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/inventory</td>
+              <td class="border px-4 py-2 text-gray-700">Obtenir l'état actuel des stocks</td>
+              <td class="border px-4 py-2 text-gray-700">GET</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/customers</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les informations des clients</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/sales</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les données de vente</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/users</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les comptes utilisateurs</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/expenses</td>
+              <td class="border px-4 py-2 text-gray-700">Suivre les dépenses</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/shops</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les informations des magasins</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/suppliers</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les informations des fournisseurs</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/products</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les informations des produits</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/categories</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les catégories de produits</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/brands</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les marques de produits</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/units</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les unités de produits</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/expense-categories</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les catégories de dépenses</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/payees</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les informations des bénéficiaires</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/notifications</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les notifications</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr class="bg-gray-50">
+              <td class="border px-4 py-2 text-gray-700">/api/v1/adjustments</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les ajustements de stock</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+            <tr>
+              <td class="border px-4 py-2 text-gray-700">/api/v1/purchases</td>
+              <td class="border px-4 py-2 text-gray-700">Gérer les commandes d'achat</td>
+              <td class="border px-4 py-2 text-gray-700">GET/POST</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="text-center">
+      <h2 class="text-3xl font-semibold text-blue-600 mb-6">Prêt à commencer ?</h2>
+      <a href="/api-docs" class="inline-block bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-blue-700 transition duration-300">Explorer la documentation de l'API</a>
+    </section>
+  </main>
+
+  <footer class="bg-blue-800 text-white mt-16">
+    <div class="container mx-auto px-6 py-6"></div>
+      <p class="text-center">&copy; 2024 API POS. Tous droits réservés.</p>
+    </div>
+  </footer>
+</body>
+</html>

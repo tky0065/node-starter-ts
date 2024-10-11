@@ -3,6 +3,9 @@
     "module": "CommonJS",
     "target": "ES2016",
     "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    
     "removeComments": true,
     "strict": true,
     "esModuleInterop": true,
@@ -15,7 +18,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "swagger.ts"],
   "exclude": ["node_modules"]
 }
  

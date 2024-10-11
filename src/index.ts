@@ -1,4 +1,6 @@
 import express from "express";
+import swaggerUi from "swagger-ui-express";
+import { specs } from "./swagger";
 import {
   genralRequestLimiter,
   strictRequestLimiter,
@@ -19,14 +21,28 @@ import shopRouter from "./routes/shop.route";
 import supplierRouter from "./routes/supplier.route";
 import unitRouter from "./routes/unit.route";
 import userRouter from "./routes/user.route";
+import path from "path";
+
 require("dotenv").config();
+
 const cors = require("cors");
+
 const app = express();
 
 app.use(cors());
 
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
 app.use(genralRequestLimiter);
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
+ 
+// Home route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 // Apply stricter rate limit to sensitive routes
 app.use("/api/v1/sales", strictRequestLimiter);
 app.use("/api/v1/users", strictRequestLimiter);
