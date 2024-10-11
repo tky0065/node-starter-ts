@@ -15,6 +15,8 @@ import payeeRouter from "./routes/payee.route";
 import expenseRouter from "./routes/expense.route";
 import { genralRequestLimiter, strictRequestLimiter } from "./middleware/rate-limite.middleware";
 import rateLimit from "express-rate-limit";
+import notificationRouter from "./routes/notification.route";
+import adjustementRouter from "./routes/adjustment.route";
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
@@ -47,6 +49,8 @@ app.use("/api/v1", salesRouter);
 app.use("/api/v1", expenseCategoryRouter);
 app.use("/api/v1", payeeRouter);
 app.use("/api/v1", expenseRouter);
+app.use("/api/v1", notificationRouter);
+app.use("/api/v1", adjustementRouter);
 
 
 
