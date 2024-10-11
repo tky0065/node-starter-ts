@@ -1,4 +1,5 @@
-import express from "express";
+import express, { NextFunction } from "express";
+import { Request, Response } from 'express';
 import authRouter from "./routes/auth.route";
 import brandRouter from "./routes/brand.route";
 import categoryRouter from "./routes/category.route";
@@ -12,14 +13,25 @@ import userRouter from "./routes/user.route";
 import expenseCategoryRouter from "./routes/expense-category.route";
 import payeeRouter from "./routes/payee.route";
 import expenseRouter from "./routes/expense.route";
-
+import { genralRequestLimiter, strictRequestLimiter } from "./middleware/rate-limite.middleware";
+import rateLimit from "express-rate-limit";
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
 
 app.use(cors());
 
-const PORT = process.env.PORT || 10000;
+app.use(genralRequestLimiter);
+
+
+// Apply stricter rate limit to sensitive routes
+app.use("/api/v1/sales", strictRequestLimiter);
+app.use("/api/v1/users", strictRequestLimiter);
+app.use("/api/v1/expenses", strictRequestLimiter);
+
+
+
+
 
 app.use(express.json());
 app.use("/api/v1", customerRouter);
@@ -36,6 +48,9 @@ app.use("/api/v1", expenseCategoryRouter);
 app.use("/api/v1", payeeRouter);
 app.use("/api/v1", expenseRouter);
 
+
+
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
