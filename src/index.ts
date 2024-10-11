@@ -39,12 +39,12 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(genralRequestLimiter);
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files from the 'public' directory inside 'src'
+app.use(express.static(path.join(__dirname, "src", "public")));
 
 // Home route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "home.html"));
+  res.sendFile(path.join(__dirname, "src", "public", "home.html"));
 });
 // Apply stricter rate limit to sensitive routes
 app.use("/api/v1/sales", strictRequestLimiter);
