@@ -33,7 +33,7 @@ expenseCategoryRouter.get("/expense-categories", auth, getExpenseCategories);
  * /api/v1/expense-categories/{id}:
  *   get:
  *     summary: Get an expense category by ID
- *     tags: [Expense Categories]
+ *     tags: [Expense-Categories]
  *     description: Retrieve a single expense category by its ID.
  *     security:
  *       - bearerAuth: []
@@ -60,7 +60,7 @@ expenseCategoryRouter.get("/expense-categories/:id", auth, getExpenseCategoryByI
  * /api/v1/expense-categories:
  *   post:
  *     summary: Create a new expense category
- *     tags: [Expense Categories]
+ *     tags: [Expense-Categories]
  *     description: Creates a new expense category in the system.
  *     security:
  *       - bearerAuth: []
@@ -90,7 +90,7 @@ expenseCategoryRouter.post(
  * /api/v1/expense-categories/{id}:
  *   put:
  *     summary: Update an expense category by ID
- *     tags: [Expense Categories]
+ *     tags: [Expense-Categories]
  *     description: Update an existing expense category's information by its ID.
  *     security:
  *       - bearerAuth: []
@@ -128,7 +128,7 @@ expenseCategoryRouter.put(
  * /api/v1/expense-categories/{id}:
  *   delete:
  *     summary: Delete an expense category by ID
- *     tags: [Expense Categories]
+ *     tags: [Expense-Categories]
  *     description: Delete an expense category from the system by its ID.
  *     security:
  *       - bearerAuth: []

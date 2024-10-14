@@ -25,7 +25,7 @@ const options = {
       },
       { name: "Sales", description: "Gestion des ventes." },
       { name: "Purchase-Orders", description: "Gestion des achats." },
-      
+
       { name: "Expenses", description: "Gestion des dépenses." },
       {
         name: "Expense-Categories",
