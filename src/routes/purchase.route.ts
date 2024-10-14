@@ -13,7 +13,7 @@ const purchaseRouter = Router();
  * /api/v1/purchase-orders:
  *   get:
  *     summary: Retrieve a list of purchase orders
- *     tags: [Purchase-Orders]
+ *     tags: [Purchase Orders]
  *     description: Retrieve a list of all purchase orders from the database.
  *     security:
  *       - bearerAuth: []
@@ -34,7 +34,7 @@ purchaseRouter.get("/purchase-orders", auth, getPurchaseOrders);
  * /api/v1/purchase-orders/{id}:
  *   get:
  *     summary: Get a purchase order by ID
- *     tags: [Purchase-Orders]
+ *     tags: [Purchase Orders]
  *     description: Retrieve a single purchase order by its ID.
  *     security:
  *       - bearerAuth: []
@@ -61,7 +61,7 @@ purchaseRouter.get("/purchase-orders/:id", auth, getPurchaseOrderById);
  * /api/v1/purchase-orders:
  *   post:
  *     summary: Create a new purchase order
- *     tags: [Purchase-Orders]
+ *     tags: [Purchase Orders]
  *     description: Creates a new purchase order in the system.
  *     security:
  *       - bearerAuth: []
@@ -91,7 +91,7 @@ purchaseRouter.post(
  * /api/v1/purchase-orders/{id}:
  *   put:
  *     summary: Update a purchase order by ID
- *     tags: [Purchase-Orders]
+ *     tags: [Purchase Orders]
  *     description: Update an existing purchase order's information by its ID.
  *     security:
  *       - bearerAuth: []
@@ -129,7 +129,7 @@ purchaseRouter.put(
  * /api/v1/purchase-orders/{id}:
  *   delete:
  *     summary: Delete a purchase order by ID
- *     tags: [Purchase-Orders]
+ *     tags: [Purchase Orders]
  *     description: Delete a purchase order from the system by its ID.
  *     security:
  *       - bearerAuth: []

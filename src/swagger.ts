@@ -24,11 +24,11 @@ const options = {
         description: "Gestion des ajustements de stock.",
       },
       { name: "Sales", description: "Gestion des ventes." },
-      { name: "Purchase-Orders", description: "Gestion des achats." },
+      { name: "Purchase Orders", description: "Gestion des achats." },
 
       { name: "Expenses", description: "Gestion des dépenses." },
       {
-        name: "Expense-Categories",
+        name: "Expense Categories",
         description: "Gestion des catégories de dépenses.",
       },
       {
