@@ -12,7 +12,7 @@ const expenseCategoryRouter = express.Router();
  * /api/v1/expense-categories:
  *   get:
  *     summary: Retrieve a list of expense categories
- *     tags: [Expense Categories]
+ *     tags: [Expense-Categories]
  *     description: Retrieve a list of all expense categories from the database.
  *     security:
  *       - bearerAuth: []

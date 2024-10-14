@@ -20,15 +20,15 @@ const options = {
       { name: "Products", description: "Gestion des produits." },
       { name: "Units", description: "Gestion des unités de mesure." },
       {
-        name: "Adjustments",
+        name: "Adjustements",
         description: "Gestion des ajustements de stock.",
       },
       { name: "Sales", description: "Gestion des ventes." },
-      { name: "Purchases", description: "Gestion des achats." },
-      { name: "Stocks", description: "Gestion des stocks." },
+      { name: "Purchase-Orders", description: "Gestion des achats." },
+      
       { name: "Expenses", description: "Gestion des dépenses." },
       {
-        name: "Expense Categories",
+        name: "Expense-Categories",
         description: "Gestion des catégories de dépenses.",
       },
       {

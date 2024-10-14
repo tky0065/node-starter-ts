@@ -13,7 +13,7 @@ const purchaseRouter = Router();
  * /api/v1/purchase-orders:
  *   get:
  *     summary: Retrieve a list of purchase orders
- *     tags: [Purchase Orders]
+ *     tags: [Purchase-Orders]
  *     description: Retrieve a list of all purchase orders from the database.
  *     security:
  *       - bearerAuth: []
